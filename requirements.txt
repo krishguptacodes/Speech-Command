@@ -1,0 +1,21 @@
+# Voice Command Module - Python Dependencies
+# For assistive robotic arm voice control with low-latency processing
+
+# Core speech recognition (offline)
+vosk==0.3.45
+
+# Audio processing
+sounddevice==0.4.6
+numpy==1.24.3
+
+# Text-to-speech for audio feedback
+pyttsx3==2.90
+
+# Serial communication for ESP32
+pyserial==3.5
+
+# Network communication for ESP32
+requests==2.31.0
+
+# Optional: for alternative audio backends
+# portaudio==0.2.0  # System-level dependency, install via package manager

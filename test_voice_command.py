@@ -86,13 +86,10 @@ def test_command_recognition():
                             self.commands_received.append(command_found)
                         
                         self.is_awake = False
-                    elif 'stop' in text_lower or 'cancel' in text_lower:
-                        print(f"  ✓ Stop/Cancel command")
+                    elif 'cancel' in text_lower:
+                        print(f"  ✓ Cancel command")
                         self.speak("Cancelled")
                         self.is_awake = False
-                        if self.command_callback:
-                            self.command_callback('stop')
-                            self.commands_received.append('stop')
                     else:
                         print(f"  ✗ Unrecognized command: '{text_lower}'")
                         self.speak("Command not recognized. Please try again.")

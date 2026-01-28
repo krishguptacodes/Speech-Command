@@ -119,12 +119,10 @@ class VoiceCommandModule:
                 
                 # Reset awake state after command
                 self.is_awake = False
-            elif 'stop' in text_lower or 'cancel' in text_lower:
-                print("✓ Stop/Cancel command")
+            elif 'cancel' in text_lower:
+                print("✓ Cancel command")
                 self.speak("Cancelled")
                 self.is_awake = False
-                if self.command_callback:
-                    self.command_callback('stop')
             else:
                 print(f"✗ Unrecognized command: '{text_lower}'")
                 self.speak("Command not recognized. Please try again.")

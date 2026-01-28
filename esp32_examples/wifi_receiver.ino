@@ -4,12 +4,17 @@
  * This example demonstrates receiving voice commands via WiFi (HTTP or UDP)
  * and controlling a robotic arm accordingly.
  * 
+ * SECURITY WARNING: This example code does not implement authentication.
+ * For production use, add API key authentication, IP whitelisting, or
+ * other security measures to prevent unauthorized access to your robot.
+ * 
  * Hardware Requirements:
  * - ESP32 development board with WiFi
  * - Servo motors or stepper motors for robotic arm
  * - Power supply appropriate for your motors
  * 
- * Update WiFi credentials below before uploading!
+ * IMPORTANT: Update WiFi credentials below before uploading!
+ * NEVER commit real WiFi credentials to version control!
  */
 
 #include <Arduino.h>
@@ -19,6 +24,7 @@
 #include <ArduinoJson.h>
 
 // WiFi credentials - UPDATE THESE!
+// For production: Use a separate config file or secure storage
 const char* ssid = "YOUR_WIFI_SSID";
 const char* password = "YOUR_WIFI_PASSWORD";
 
@@ -117,10 +123,17 @@ void handleRoot() {
 void processUDP() {
   int packetSize = udp.parsePacket();
   if (packetSize) {
+    // Prevent buffer overflow - max buffer size is 255
+    if (packetSize > 254) {
+      Serial.printf("UDP packet too large (%d bytes), ignoring\n", packetSize);
+      udp.flush();  // Discard oversized packet
+      return;
+    }
+    
     char incomingPacket[255];
-    int len = udp.read(incomingPacket, 255);
+    int len = udp.read(incomingPacket, 254);  // Read max 254 bytes
     if (len > 0) {
-      incomingPacket[len] = 0;
+      incomingPacket[len] = 0;  // Null terminate
     }
     
     Serial.printf("UDP packet received: %s\n", incomingPacket);

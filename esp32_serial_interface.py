@@ -52,7 +52,10 @@ class ESP32SerialInterface:
                 timeout=self.timeout,
                 write_timeout=self.timeout
             )
-            time.sleep(2)  # Wait for ESP32 to reset
+            # Wait for ESP32 to reset after serial connection is established
+            # ESP32 typically auto-resets when DTR/RTS pins change state
+            # 2 seconds is a safe default for most ESP32 boards
+            time.sleep(2)
             print(f"✓ Connected to ESP32 on {self.port} at {self.baudrate} baud")
             return True
         except serial.SerialException as e:

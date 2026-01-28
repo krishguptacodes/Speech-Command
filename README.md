@@ -248,6 +248,14 @@ esp32.close()
 
 **Total typical latency: 770ms - 1800ms** from speech to robot action
 
+### Known Limitations
+
+1. **Text-to-Speech Blocking**: Audio feedback currently blocks command processing (500-1000ms). This is acceptable for most use cases but could be improved with threaded TTS for higher responsiveness.
+
+2. **Single Command Processing**: Only one command can be processed at a time. Multiple rapid commands require waiting for previous command completion.
+
+3. **Wake Word Accuracy**: Wake word detection depends on clear pronunciation and low background noise. Consider using a physical button as an alternative activation method in noisy environments.
+
 ## Troubleshooting
 
 ### Microphone Not Working
@@ -346,6 +354,14 @@ Note: Vosk uses phonetic matching, so similar-sounding phrases work best.
 - **Network Security** - Use WiFi with WPA2/WPA3 encryption
 - **Physical Access** - Implement emergency stop mechanisms on the robot
 - **Command Validation** - Add authentication if needed for critical operations
+- **WiFi Authentication** - The example ESP32 code does not implement authentication. For production use:
+  - Add API key verification
+  - Implement IP address whitelisting
+  - Use HTTPS instead of HTTP
+  - Consider VPN or secure tunneling for remote access
+- **Buffer Overflow Protection** - ESP32 examples include input validation to prevent buffer overflows
+
+**Note**: The provided ESP32 examples are for demonstration purposes. Production deployments should implement proper security measures appropriate to your use case.
 
 ## Contributing
 
@@ -376,3 +392,6 @@ For issues and questions:
 - [ ] Gesture-based control integration
 - [ ] Mobile app control interface
 - [ ] Voice command macros/sequences
+- [ ] Non-blocking text-to-speech for improved responsiveness
+- [ ] Authentication system for WiFi connections
+- [ ] Custom wake word training
